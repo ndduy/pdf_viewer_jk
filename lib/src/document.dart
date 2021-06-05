@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:io' as io;
+import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart' as FCM;
@@ -73,7 +73,7 @@ class PDFDocument {
     try {
       var dir = await getApplicationDocumentsDirectory();
 
-      file = io.File("${dir.path}/file.pdf");
+      file = File("${dir.path}/file.pdf");
       var data = await rootBundle.load(asset);
       var bytes = data.buffer.asUint8List();
       await file.writeAsBytes(bytes, flush: true);
