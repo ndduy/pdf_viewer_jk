@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:io';
+import 'dart:io' as io;
 
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart' as FCM;
@@ -22,7 +22,7 @@ class PDFDocument {
   /// comes in handy when working with more than one document at the same time.
   /// If you do this, you are responsible for eventually clearing the cache by hand
   /// by calling [PDFDocument.clearPreviewCache].
-  static Future<PDFDocument> fromFile(File f,
+  static Future<PDFDocument> fromFile(io.File f,
       {bool clearPreviewCache = true}) async {
     PDFDocument document = PDFDocument();
     document._filePath = f.path;
@@ -47,7 +47,7 @@ class PDFDocument {
   static Future<PDFDocument> fromURL(String url,
       {Map<String, String>? headers, clearPreviewCache = true}) async {
     // Download into cache
-    File f = await FCM.DefaultCacheManager().getSingleFile(url, headers: headers);
+    io.File f = await FCM.DefaultCacheManager().getSingleFile(url, headers: headers);
     PDFDocument document = PDFDocument();
     document._filePath = f.path;
     try {
@@ -69,11 +69,11 @@ class PDFDocument {
   static Future<PDFDocument> fromAsset(String asset,
       {clearPreviewCache = true}) async {
     // To open from assets, you can copy them to the app storage folder, and the access them "locally"
-    File file;
+    io.File file;
     try {
       var dir = await getApplicationDocumentsDirectory();
 
-      file = File("${dir.path}/file.pdf");
+      file = io.File("${dir.path}/file.pdf");
       var data = await rootBundle.load(asset);
       var bytes = data.buffer.asUint8List();
       await file.writeAsBytes(bytes, flush: true);
